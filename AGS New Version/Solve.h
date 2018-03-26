@@ -9,14 +9,14 @@
 #include <omp.h>
 
 
-//Структура для хранения результата 
+//РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р° 
 struct Pointer
 {
 	double x, z;
 	int steps;
 };
 
-//Структура для процесса поиска
+//РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РїСЂРѕС†РµСЃСЃР° РїРѕРёСЃРєР°
  struct ChX {
 	double x;
 	double R;
@@ -28,12 +28,12 @@ class global
 private:
 	
 public:
-	double left, right;						//Отрезок
-	double r;							//Параметр метода
-	double E;							//Требуемая точность
-	int Nmax;							//Максимальное число шагов
-	int S = 0;							//Количество шагов
-	double currentE = 0;				//Достигнутая точность
+	double left, right;						
+	double r;							
+	double E;							
+	int Nmax;							
+	int S = 0;							
+	double currentE = 0;				
 	double * coeff = new double[4];
 
 
@@ -63,7 +63,7 @@ public:
 	{
 		return abs(func(RX[i].x, coeff) - func(RX[i - 1].x, coeff)) / (RX[i].x - RX[i - 1].x);
 	}
-	//  оценка константы Липшица
+	//  РѕС†РµРЅРєР° РєРѕРЅСЃС‚Р°РЅС‚С‹ Р›РёРїС€РёС†Р°
 	double CalculateM(double r, std::vector<ChX> &RX, double * coeff)
 	{
 		double M = MCh(RX, coeff, 1);
