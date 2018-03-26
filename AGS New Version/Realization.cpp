@@ -1,7 +1,7 @@
 #include "Solve.h"
 Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double * coeff, int Nmax, double E)
 {
-	//вставка первых двух RX
+	//РІСЃС‚Р°РІРєР° РїРµСЂРІС‹С… РґРІСѓС… RX
 	ChX RXpoint;
 	RXpoint.x = left;
 	RXpoint.R = 0;
@@ -19,7 +19,7 @@ Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double *
 
 	double minz;
 	double minx;
-	//для концов отрезков
+		//РґР»СЏ РєРѕРЅС†РѕРІ РѕС‚СЂРµР·РєРѕРІ
 	if (func(right, coeff) < func(left, coeff))
 	{
 		point.x = right;
@@ -48,7 +48,7 @@ Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double *
 		maxR = RX[0].R;
 		newX = XSimple(RX, coeff, 1);
 		
-		//Определение интервала с максимальным R
+		//РћРїСЂРµРґРµР»РµРЅРёРµ РёРЅС‚РµСЂРІР°Р»Р° СЃ РјР°РєСЃРёРјР°Р»СЊРЅС‹Рј R
 		for (int i = 1; i < RX.size(); i++)
 		{
 			if (RX[i - 1].R > maxR)
@@ -56,14 +56,14 @@ Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double *
 				maxR = RX[i - 1].R;
 				newX = XSimple(RX, coeff, i);
 			}
-			//посчёт для условия выхода
+			//РїРѕСЃС‡С‘С‚ РґР»СЏ СѓСЃР»РѕРІРёСЏ РІС‹С…РѕРґР°
 			if (RX[i].x - RX[i - 1].x < currentE)
 			{
 				currentE = RX[i].x - RX[i - 1].x;
 			}
 		}
 
-		//Вставка RX
+		//Р’СЃС‚Р°РІРєР° RX
 		
 		RXpoint.x = newX;
 		RXpoint.R = 0;
@@ -72,7 +72,7 @@ Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double *
 		std::sort(RX.begin(), RX.end(), obj);
 
 		
-		//новые R
+		//РЅРѕРІС‹Рµ R
 		for (int i = 1; i < RX.size(); i++)
 		{
 			RX[i - 1].R = RSimple(RX, i);
@@ -87,7 +87,7 @@ Pointer global::Simple(std::vector<ChX> &RX, double left, double right, double *
 
 Pointer global::Piavsky(std::vector<ChX> &RX, double left, double right, double * coeff, double r, int Kmax, double E)
 {
-	//вставка первых двух RX
+	
 	ChX RXpoint;
 	RXpoint.x = left;
 	RXpoint.R = 0;
@@ -103,7 +103,7 @@ Pointer global::Piavsky(std::vector<ChX> &RX, double left, double right, double 
 	double maxR;
 	double currentE = right - left;
 	
-	//для концов отрезков
+	
 	if (func(right, coeff) < func(left, coeff))
 	{
 		point.x = right;
@@ -123,7 +123,7 @@ Pointer global::Piavsky(std::vector<ChX> &RX, double left, double right, double 
 		maxR = RX[0].R;
 		newX = X(RX, m, coeff, 1);
 
-		//Определение интервала с максимальным R
+		
 		for (int i = 1; i < RX.size(); i++)
 		{
 			if (RX[i - 1].R > maxR)
@@ -133,12 +133,12 @@ Pointer global::Piavsky(std::vector<ChX> &RX, double left, double right, double 
 			}
 			if (RX[i].x - RX[i - 1].x < currentE)
 			{
-				//посчёт для условия выхода
+				
 				currentE = RX[i].x - RX[i - 1].x;
 			}
 		}
 
-		//Вставка RX
+		
 
 		RXpoint.x = newX;
 		RXpoint.R = 0;
@@ -146,7 +146,7 @@ Pointer global::Piavsky(std::vector<ChX> &RX, double left, double right, double 
 		std::sort(RX.begin(), RX.end(), obj);
 
 
-		//новые R
+		
 		m = CalculateM(r, RX, coeff);
 		for (int i = 1; i < RX.size(); i++)
 		{
@@ -167,7 +167,7 @@ Pointer global::Strongin(std::vector<ChX> &RX, double left, double right, double
 {
 	
 	
-	//вставка первых двух RX
+	
 	ChX RXpoint;
 	RXpoint.x = left;
 	RXpoint.R = 0;
@@ -182,7 +182,7 @@ Pointer global::Strongin(std::vector<ChX> &RX, double left, double right, double
 
 	double maxR;
 	double currentE = right - left;
-	//для концов отрезков
+	//Г¤Г«Гї ГЄГ®Г­Г¶Г®Гў Г®ГІГ°ГҐГ§ГЄГ®Гў
 	if (func(right, coeff) < func(left, coeff))
 	{
 		point.x = right;
@@ -202,7 +202,7 @@ Pointer global::Strongin(std::vector<ChX> &RX, double left, double right, double
 		maxR = RX[0].R;
 		newX = X(RX, m, coeff, 1);
 		
-		//Определение интервала с максимальным R
+		
 		for (int i = 1; i < RX.size(); i++)
 		{
 			if (RX[i - 1].R > maxR)
@@ -216,14 +216,14 @@ Pointer global::Strongin(std::vector<ChX> &RX, double left, double right, double
 			}
 		}
 
-		//Вставка RX
+		
 		
 		RXpoint.x = newX;
 		RXpoint.R = 0;
 		RX.push_back(RXpoint);
 		std::sort(RX.begin(), RX.end(), obj);
 
-		//новые R
+		
 		m = CalculateM(r, RX, coeff);
 
 		for (int i = 1; i < RX.size(); i++)
