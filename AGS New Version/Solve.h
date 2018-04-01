@@ -9,14 +9,15 @@
 #include <omp.h>
 
 
-//РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р° 
+//Структура для хранения результата 
 struct Pointer
 {
 	double x, z;
 	int steps;
+	std::vector<double> X;
 };
 
-//РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ РїСЂРѕС†РµСЃСЃР° РїРѕРёСЃРєР°
+//Структура для процесса поиска
  struct ChX {
 	double x;
 	double R;
@@ -28,14 +29,17 @@ class global
 private:
 	
 public:
-	double left, right;						
+
+
+	
+	double left, right;					
 	double r;							
 	double E;							
 	int Nmax;							
 	int S = 0;							
 	double currentE = 0;				
 	double * coeff = new double[4];
-
+	//std::vector<ChX> RX;
 
 	 double func(const double x, double *coeff)
 	{
@@ -46,7 +50,7 @@ public:
 	};
 
 
-	
+	//сортировка для структуры ChX
 	struct sort_class_x
 	{
 		bool operator() (ChX left, ChX right)
@@ -54,16 +58,18 @@ public:
 			return (left.x < right.x);
 		}
 	} obj;
+	global() {  left = 0; right = 0; r = 0; }; // по-умолч
+	Pointer Simple( /*std::vector<ChX> &RX,*/ double left, double right, double * coeff, int Nmax, double E);
+	Pointer Piavsky(/*std::vector<ChX> &RX,*/ double left, double right, double * coeff,  double r, int Nmax, double E);
+	Pointer Strongin( double left, double right, double * coeff, double r, int Nmax, double E);
 
-	Pointer Simple(std::vector<ChX> &RX, double left, double right, double * coeff, int Nmax, double E);
-	Pointer Piavsky(std::vector<ChX> &RX, double left, double right, double * coeff,  double r, int Nmax, double E);
-	Pointer Strongin(std::vector<ChX> &RX, double left, double right, double * coeff, double r, int Nmax, double E);
+	Pointer ParStrongin(int threads, double left, double right, double * coeff, double r, int Nmax, double E);
 
 	double MCh(std::vector<ChX> &RX, double * coeff, int i)
 	{
 		return abs(func(RX[i].x, coeff) - func(RX[i - 1].x, coeff)) / (RX[i].x - RX[i - 1].x);
 	}
-	//  РѕС†РµРЅРєР° РєРѕРЅСЃС‚Р°РЅС‚С‹ Р›РёРїС€РёС†Р°
+	//  оценка константы Липшица
 	double CalculateM(double r, std::vector<ChX> &RX, double * coeff)
 	{
 		double M = MCh(RX, coeff, 1);
@@ -104,6 +110,7 @@ public:
 			(func(RX[i].x, coeff) - func(RX[i - 1].x, coeff))) / (m * (RX[i].x - RX[i - 1].x))) -
 			2 * (func(RX[i].x, coeff) + func(RX[i - 1].x, coeff));
 	}
+
 };
 
 #endif
